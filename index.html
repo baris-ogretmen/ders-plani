@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Değişim Koleji - Barış Hoca Master Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --success: #39ff14;
+            --warning: #ffb800;
+            --danger: #ff003c;
+            --orange: #ff5e00;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            
+            /* Ders Renkleri */
+            --c-robotik: rgba(0, 242, 255, 0.15);
+            --b-robotik: #00f2ff;
+            
+            --c-satranc: rgba(188, 19, 254, 0.15);
+            --b-satranc: #bc13fe;
+            
+            --c-yz: rgba(255, 0, 60, 0.15);
+            --b-yz: #ff003c;
+            
+            --c-anaokulu: rgba(57, 255, 20, 0.15);
+            --b-anaokulu: #39ff14;
+            
+            --c-sekiz: rgba(255, 94, 0, 0.15);
+            --b-sekiz: #ff5e00;
+            
+            --c-atolye: rgba(255, 184, 0, 0.15);
+            --b-atolye: #ffb800;
+            
+            --c-arge: rgba(255, 255, 255, 0.05);
+            --b-arge: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
+            color: white; padding: 40px 20px; min-height: 100vh;
+        }
+
+        .container { max-width: 1500px; margin: 0 auto; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; color: var(--neon-blue); text-shadow: 0 0 15px rgba(0, 242, 255, 0.5); margin-bottom: 10px; letter-spacing: 2px; }
+        h1 span { color: white; }
+        .subtitle { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; color: #8892b0; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; }
+
+        /* İstatistik Paneli */
+        .dashboard-stats { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .stat-box { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px 25px; border-radius: 12px; text-align: center; backdrop-filter: blur(10px); min-width: 180px; transition: transform 0.3s; }
+        .stat-box:hover { transform: translateY(-5px); border-color: var(--neon-blue); box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
+        .stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: bold; }
+        .stat-label { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        /* Lejant (Açıklama) */
+        .legend-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; background: rgba(0,0,0,0.4); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* Program Tablosu (Geniş Tasarım) */
+        .table-wrapper { overflow-x: auto; background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); padding: 20px; }
+        table { width: 100%; border-collapse: separate; border-spacing: 8px; min-width: 1200px; }
+        
+        th { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; color: white; padding: 15px 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid rgba(255,255,255,0.1); }
+        .time-header { color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 1rem; }
+        .time-header span { display: block; font-family: 'Inter', sans-serif; font-size: 0.75rem; color: #8892b0; margin-top: 5px; letter-spacing: 0; }
+        
+        /* Sol Sütun (Günler) */
+        .day-name { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: white; font-weight: bold; text-align: left; padding-left: 15px; background: rgba(0,0,0,0.4); border-radius: 12px; width: 140px; border-left: 3px solid var(--neon-blue); }
+
+        td { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px 10px; text-align: center; border: 1px solid transparent; transition: all 0.3s; position: relative; width: 130px; }
+        td:hover { transform: scale(1.05); z-index: 2; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        
+        .class-name { font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: bold; margin-bottom: 5px; }
+        .subject { font-size: 0.8rem; font-weight: 600; color: #e2e8f0; line-height: 1.3; }
+
+        /* Öğle Arası Dik Sütun */
+        .break-cell { 
+            background: linear-gradient(180deg, rgba(255, 184, 0, 0.05) 0%, rgba(255, 0, 60, 0.05) 100%); 
+            border: 1px solid rgba(255, 184, 0, 0.2); 
+            width: 60px; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.2rem; 
+            color: var(--warning); 
+            letter-spacing: 5px; 
+            text-shadow: 0 0 10px rgba(255, 184, 0, 0.5);
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            border-radius: 12px;
+        }
+        .break-cell span { font-family: 'Inter', sans-serif; font-size: 0.8rem; color: #8892b0; writing-mode: horizontal-tb; display: inline-block; margin-bottom: 20px; letter-spacing: 1px;}
+
+        /* Hücre Renklendirmeleri */
+        .td-robotik { background: var(--c-robotik); border-color: var(--b-robotik); } .td-robotik .class-name { color: var(--b-robotik); } .td-robotik:hover { box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
+        .td-satranc { background: var(--c-satranc); border-color: var(--b-satranc); } .td-satranc .class-name { color: var(--b-satranc); } .td-satranc:hover { box-shadow: 0 0 20px rgba(188, 19, 254, 0.3); }
+        .td-yz { background: var(--c-yz); border-color: var(--b-yz); } .td-yz .class-name { color: var(--b-yz); } .td-yz:hover { box-shadow: 0 0 20px rgba(255, 0, 60, 0.3); }
+        .td-anaokulu { background: var(--c-anaokulu); border-color: var(--b-anaokulu); } .td-anaokulu .class-name { color: var(--b-anaokulu); } .td-anaokulu:hover { box-shadow: 0 0 20px rgba(57, 255, 20, 0.3); }
+        .td-sekiz { background: var(--c-sekiz); border-color: var(--b-sekiz); } .td-sekiz .class-name { color: var(--b-sekiz); } .td-sekiz:hover { box-shadow: 0 0 20px rgba(255, 94, 0, 0.3); }
+        .td-atolye { background: var(--c-atolye); border-color: var(--b-atolye); } .td-atolye .class-name { color: var(--b-atolye); } .td-atolye:hover { box-shadow: 0 0 20px rgba(255, 184, 0, 0.3); }
+        .td-arge { background: var(--c-arge); border-color: var(--b-arge); opacity: 0.6; } .td-arge .class-name { color: var(--b-arge); font-size: 0.8rem; } .td-arge:hover { opacity: 1; border-color: white; }
+
+        .footer { text-align: center; margin-top: 40px; font-size: 0.9rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        .highlight { color: var(--neon-blue); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>DEĞİŞİM <span>KOLEJİ</span></h1>
+            <div class="subtitle">Eğitim Teknolojileri Haftalık Master Planı</div>
+        </header>
+
+        <div class="dashboard-stats">
+            <div class="stat-box">
+                <div class="stat-num" style="color: white; text-shadow: 0 0 15px rgba(255,255,255,0.5);">32</div>
+                <div class="stat-label">Toplam Resmi Saat</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: var(--neon-blue); text-shadow: 0 0 15px rgba(0,242,255,0.5);">21</div>
+                <div class="stat-label">1-7 Kademeleri</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: var(--success); text-shadow: 0 0 15px rgba(57,255,20,0.5);">3</div>
+                <div class="stat-label">Anaokulu Saati</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: var(--warning); text-shadow: 0 0 15px rgba(255,184,0,0.5);">6</div>
+                <div class="stat-label">Atölye Saati</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: var(--orange); text-shadow: 0 0 15px rgba(255,94,0,0.5);">2</div>
+                <div class="stat-label">8. Sınıf Saati</div>
+            </div>
+        </div>
+
+        <div class="legend-container">
+            <div class="legend-item"><div class="dot" style="background: var(--b-robotik); box-shadow: 0 0 10px var(--b-robotik);"></div> Robotik Kodlama</div>
+            <div class="legend-item"><div class="dot" style="background: var(--b-satranc); box-shadow: 0 0 10px var(--b-satranc);"></div> Akıl Oyunları & Satranç</div>
+            <div class="legend-item"><div class="dot" style="background: var(--b-yz); box-shadow: 0 0 10px var(--b-yz);"></div> Yapay Zeka (YZ)</div>
+            <div class="legend-item"><div class="dot" style="background: var(--b-anaokulu); box-shadow: 0 0 10px var(--b-anaokulu);"></div> Anaokulu</div>
+            <div class="legend-item"><div class="dot" style="background: var(--b-sekiz); box-shadow: 0 0 10px var(--b-sekiz);"></div> 8. Sınıf / LGS Koçluk</div>
+            <div class="legend-item"><div class="dot" style="background: var(--b-atolye); box-shadow: 0 0 10px var(--b-atolye);"></div> Atölye Çalışmaları</div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:140px; text-align:left; padding-left:15px; color:#8892b0;">GÜNLER \ SAATLER</th>
+                        <th class="time-header">1. DERS<span>10:00 - 10:40</span></th>
+                        <th class="time-header">2. DERS<span>10:50 - 11:30</span></th>
+                        <th class="time-header">3. DERS<span>11:40 - 12:20</span></th>
+                        <th class="time-header">4. DERS<span>12:30 - 13:10</span></th>
+                        <th style="width:60px; color:var(--warning);">MOLA</th>
+                        <th class="time-header">5. DERS<span>14:00 - 14:40</span></th>
+                        <th class="time-header">6. DERS<span>14:50 - 15:30</span></th>
+                        <th class="time-header">7. DERS<span>15:40 - 16:20</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="day-name">PAZARTESİ</td>
+                        <td class="td-robotik"><div class="class-name">1. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-satranc"><div class="class-name">2. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-yz"><div class="class-name">3. Sınıflar</div><div class="subject">YZ Okuryazarlığı</div></td>
+                        <td class="td-anaokulu"><div class="class-name">Anaokulu</div><div class="subject">Teknolojiye Giriş</div></td>
+                        <td rowspan="5" class="break-cell"><span>13:10 - 14:00</span>ÖĞLE ARASI</td>
+                        <td class="td-sekiz"><div class="class-name">8. Sınıflar</div><div class="subject">LGS Birebir Koçluk</div></td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">Algoritma & Kodlama</div></td>
+                        <td class="td-robotik"><div class="class-name">4. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="day-name">SALI</td>
+                        <td class="td-satranc"><div class="class-name">5. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-yz"><div class="class-name">6. Sınıflar</div><div class="subject">YZ Destekli Yazılım</div></td>
+                        <td class="td-robotik"><div class="class-name">7. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-satranc"><div class="class-name">1. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-anaokulu"><div class="class-name">Anaokulu</div><div class="subject">Teknolojiye Giriş</div></td>
+                        <td class="td-yz"><div class="class-name">2. Sınıflar</div><div class="subject">YZ Okuryazarlığı</div></td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">Bilişsel & Dikkat</div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="day-name" style="border-left-color: var(--neon-purple);">ÇARŞAMBA</td>
+                        <td class="td-robotik"><div class="class-name">3. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-satranc"><div class="class-name">4. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">Dijital Güvenlik</div></td>
+                        <td class="td-yz"><div class="class-name">5. Sınıflar</div><div class="subject">YZ Destekli Yazılım</div></td>
+                        <td class="td-robotik"><div class="class-name">6. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-sekiz"><div class="class-name">8. Sınıflar</div><div class="subject">YZ Ders Entegrasyonu</div></td>
+                        <td class="td-satranc"><div class="class-name">7. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="day-name">PERŞEMBE</td>
+                        <td class="td-robotik"><div class="class-name">2. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">Akıl & Zeka Oyunları</div></td>
+                        <td class="td-yz"><div class="class-name">1. Sınıflar</div><div class="subject">YZ Okuryazarlığı</div></td>
+                        <td class="td-satranc"><div class="class-name">3. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-yz"><div class="class-name">4. Sınıflar</div><div class="subject">YZ Destekli Yazılım</div></td>
+                        <td class="td-anaokulu"><div class="class-name">Anaokulu</div><div class="subject">Teknolojiye Giriş</div></td>
+                        <td class="td-arge"><div class="class-name">AR-GE / PLAN</div><div class="subject">Dijital Entegrasyon</div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="day-name" style="border-left-color: var(--success);">CUMA</td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">Masaüstü Strateji</div></td>
+                        <td class="td-robotik"><div class="class-name">5. Sınıflar</div><div class="subject">Robotik Kodlama</div></td>
+                        <td class="td-satranc"><div class="class-name">6. Sınıflar</div><div class="subject">Satranç & Zeka</div></td>
+                        <td class="td-yz"><div class="class-name">7. Sınıflar</div><div class="subject">YZ Destekli Yazılım</div></td>
+                        <td class="td-atolye"><div class="class-name">🌟 Atölye</div><div class="subject">YZ Proje Geliştirme</div></td>
+                        <td class="td-arge"><div class="class-name">AR-GE / PLAN</div><div class="subject">Atölye Değerlendirme</div></td>
+                        <td class="td-arge"><div class="class-name">AR-GE / PLAN</div><div class="subject">Haftalık Raporlama</div></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Değişim Koleji | Dijital Altyapı ve Takip Sistemi | <span class="highlight">Eğitim Teknoloğu: Barış İlkan</span></p>
+        </div>
+    </div>
+
+</body>
+</html>
